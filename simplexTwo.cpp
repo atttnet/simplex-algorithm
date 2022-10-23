@@ -57,19 +57,19 @@ vector<vector<double>> buildI(int n) {
 }
 vector<double>vec_mul(vector<double> a, vector<vector<double>> b) {
 
-    // ´´½¨Ò»¸öÒ»Î¬Êı×é
+    // åˆ›å»ºä¸€ä¸ªä¸€ç»´æ•°ç»„
     vector<double> mat;
-    // A¾ØÕóµÄĞĞÊı£¬A¾ØÕóµÄÁĞÊı£¬B¾ØÕóµÄĞĞÊı£¬B¾ØÕóµÄÁĞÊı
+    // AçŸ©é˜µçš„è¡Œæ•°ï¼ŒAçŸ©é˜µçš„åˆ—æ•°ï¼ŒBçŸ©é˜µçš„è¡Œæ•°ï¼ŒBçŸ©é˜µçš„åˆ—æ•°
     int col1 = a.size(), row2 = b.size(), col2 = b[0].size();
-    // A¾ØÕóµÄÁĞÊıºÍB¾ØÕóµÄĞĞÊı²»ÏàµÈÊ±£¬¾ØÕóÎŞ·¨Ïà³Ë
+    // AçŸ©é˜µçš„åˆ—æ•°å’ŒBçŸ©é˜µçš„è¡Œæ•°ä¸ç›¸ç­‰æ—¶ï¼ŒçŸ©é˜µæ— æ³•ç›¸ä¹˜
     if (col1 != row2)
     {
-        cout << "A¾ØÕóµÄÁĞÊıºÍB¾ØÕóµÄĞĞÊı²»ÏàµÈ£¡" << endl;
+        cout << "AçŸ©é˜µçš„åˆ—æ•°å’ŒBçŸ©é˜µçš„è¡Œæ•°ä¸ç›¸ç­‰ï¼" << endl;
         return mat;
     }
 
-    // ¹¹½¨³ö A¾ØÕóµÄĞĞÊı * B¾ØÕóµÄÁĞÊı µÄĞÂ¾ØÕó
-    // ¾ØÕóAµÄĞĞÊı
+    // æ„å»ºå‡º AçŸ©é˜µçš„è¡Œæ•° * BçŸ©é˜µçš„åˆ—æ•° çš„æ–°çŸ©é˜µ
+    // çŸ©é˜µAçš„è¡Œæ•°
     for (int i = 0; i < col2; i++)
     {
         double ans = 0;
@@ -77,10 +77,10 @@ vector<double>vec_mul(vector<double> a, vector<vector<double>> b) {
         for (int j = 0; j < row2; j++)
         {
             ans = ans + a[j] * b[j][i];
-            // °ÑÖµ´æµ½Ôİ´æÊı×é
+            // æŠŠå€¼å­˜åˆ°æš‚å­˜æ•°ç»„
 
         }
-        // °ÑÔİ´æÊı×é·Åµ½¾ØÕóC
+        // æŠŠæš‚å­˜æ•°ç»„æ”¾åˆ°çŸ©é˜µC
         mat.push_back(ans);
     }
 
@@ -89,37 +89,37 @@ vector<double>vec_mul(vector<double> a, vector<vector<double>> b) {
 }
 vector<double>vec_mul2(vector<vector<double>> a, vector<double> b) {
 
-    // ´´½¨Ò»¸öÒ»Î¬Êı×é
+    // åˆ›å»ºä¸€ä¸ªä¸€ç»´æ•°ç»„
     vector<double> mat;
-    // A¾ØÕóµÄĞĞÊı£¬A¾ØÕóµÄÁĞÊı£¬B¾ØÕóµÄĞĞÊı£¬B¾ØÕóµÄÁĞÊı
+    // AçŸ©é˜µçš„è¡Œæ•°ï¼ŒAçŸ©é˜µçš„åˆ—æ•°ï¼ŒBçŸ©é˜µçš„è¡Œæ•°ï¼ŒBçŸ©é˜µçš„åˆ—æ•°
     int row = a.size(), col = a[0].size(), row2 = b.size();
-    // A¾ØÕóµÄÁĞÊıºÍB¾ØÕóµÄĞĞÊı²»ÏàµÈÊ±£¬¾ØÕóÎŞ·¨Ïà³Ë
+    // AçŸ©é˜µçš„åˆ—æ•°å’ŒBçŸ©é˜µçš„è¡Œæ•°ä¸ç›¸ç­‰æ—¶ï¼ŒçŸ©é˜µæ— æ³•ç›¸ä¹˜
     if (col != row2)
     {
-        cout << "A¾ØÕóµÄÁĞÊıºÍB¾ØÕóµÄĞĞÊı²»ÏàµÈ£¡" << endl;
+        cout << "AçŸ©é˜µçš„åˆ—æ•°å’ŒBçŸ©é˜µçš„è¡Œæ•°ä¸ç›¸ç­‰ï¼" << endl;
         return mat;
     }
 
-    // ¹¹½¨³ö A¾ØÕóµÄĞĞÊı * B¾ØÕóµÄÁĞÊı µÄĞÂ¾ØÕó
-    // ¾ØÕóAµÄĞĞÊı
+    // æ„å»ºå‡º AçŸ©é˜µçš„è¡Œæ•° * BçŸ©é˜µçš„åˆ—æ•° çš„æ–°çŸ©é˜µ
+    // çŸ©é˜µAçš„è¡Œæ•°
     for (int i = 0; i < row; i++)
     {
         int ans = 0;
-        // ´´½¨Ò»¸öÔİ´æÊı×é
+        // åˆ›å»ºä¸€ä¸ªæš‚å­˜æ•°ç»„
         //vector<double> v;
-        // ¾ØÕóBµÄÁĞÊı
+        // çŸ©é˜µBçš„åˆ—æ•°
         for (int j = 0; j < col; j++)
         {
-            // Ôİ´æĞÂ¾ØÕó C[i][j] µÄÖµ
+            // æš‚å­˜æ–°çŸ©é˜µ C[i][j] çš„å€¼
 
-            // ¾ØÕóAµÄÁĞÊı
+            // çŸ©é˜µAçš„åˆ—æ•°
 
             ans = ans + a[i][j] * b[j];
 
-            // °ÑÖµ´æµ½Ôİ´æÊı×é
+            // æŠŠå€¼å­˜åˆ°æš‚å­˜æ•°ç»„
 
         }
-        // °ÑÔİ´æÊı×é·Åµ½¾ØÕóC
+        // æŠŠæš‚å­˜æ•°ç»„æ”¾åˆ°çŸ©é˜µC
         //mat.push_back(v);
         mat.push_back(ans);
     }
@@ -127,7 +127,7 @@ vector<double>vec_mul2(vector<vector<double>> a, vector<double> b) {
     return mat;
 
 }
-vector<vector<double> > PivotalTransform(vector<vector<double> > a, vector<int> bases, int p, int q)//ÊàÖá±ä»»
+vector<vector<double> > PivotalTransform(vector<vector<double> > a, vector<int> bases, int p, int q)//æ¢è½´å˜æ¢
 {
 
     vector<vector<double> > b(a);
@@ -171,7 +171,7 @@ vector<vector<double> > PivotalTransform(vector<vector<double> > a, vector<int> 
     }
     return b;
 }
-int SelectP(vector<double> xo, vector<double> xq)//³ö»ù
+int SelectP(vector<double> xo, vector<double> xq)//å‡ºåŸº
 {
     int m = xo.size();
     if (m != xq.size()) {
@@ -282,12 +282,12 @@ tuple<vector<vector<double>>, vector<vector<double>>, vector<double>, vector<int
     vector<vector<double> > B(B_b);
 
     for (int v = 0; v < 128; v++) {
-        cout << "µÚ" << v + 1 << "´Îµü´ú" << endl;
+        cout << "ç¬¬" << v + 1 << "æ¬¡è¿­ä»£" << endl;
         printV(A);
         // cout << "BJuzhen" << endl;
         printV(B);
         vector<double> cb;
-        cout << "»ùÎª";
+        cout << "åŸºä¸º";
         for (int i = 0; i < basesB.size(); i++) {
             cb.push_back(C[basesB[i]]);
             cout << basesB[i] + 1 << "   ";
@@ -332,7 +332,7 @@ tuple<vector<vector<double>>, vector<vector<double>>, vector<double>, vector<int
             double ans = 0;
             for (int k = 0; k < cb.size(); k++)
             {
-                // ¾ØÕóA xÖáµÄÊı ³Ë ¾ØÕóB yÖáµÄÊı£¬ÀÛ¼ÓµÃµ½£¬ĞÂ¾ØÕó C[i][j] µÄÖµ
+                // çŸ©é˜µA xè½´çš„æ•° ä¹˜ çŸ©é˜µB yè½´çš„æ•°ï¼Œç´¯åŠ å¾—åˆ°ï¼Œæ–°çŸ©é˜µ C[i][j] çš„å€¼
                 ans = ans + cb[k] * X[k];
             }
             cout << "minimumcost is" << ans<<endl;
@@ -406,9 +406,9 @@ int main(int argc, char* argv[])
     vector<double> x;           //b vector in Ax=b
 
     vector<vector<double> > A;
-    vector<vector<double> > b;  //»ù¾ØÕó
-    fin.open("test.txt");       //ÊäÈë¾ØÕó
-    fin >> cn >> bn;            //¾ØÕó´óĞ¡
+    vector<vector<double> > b;  //åŸºçŸ©é˜µ
+    fin.open("test.txt");       //è¾“å…¥çŸ©é˜µ
+    fin >> cn >> bn;            //çŸ©é˜µå¤§å°
 
     for (size_t i = 0; i < bn - 1; i++)
     {
@@ -493,25 +493,9 @@ int main(int argc, char* argv[])
 }
 
 /////////////////////////////////////
-//glpk input:
-///* Variables */
-//var x1 >= 0;
-//var x2 >= 0;
-//var x3 >= 0;
-///* Object function */
-//maximize z: x1 + 14*x2 + 6*x3;
-///* Constrains */
-//s.t. con1: x1 + x2 + x3 <= 4;
-//s.t. con2: x1  <= 2;
-//s.t. con3: x3  <= 3;
-//s.t. con4: 3*x2 + x3  <= 6;
-//end;
-/////////////////////////////////////
 //myinput:
-//8 5
-//7 4 ÏÂÁĞ¾ØÕó´óĞ¡
-//5 6 0 0 0 0 0 ³õÊ¼»ùÏòÁ¿ÁĞË÷Òı
+//7 4 ä¸‹åˆ—çŸ©é˜µå¤§å°
 //1 - 2 3 - 1 1 0 15
 //2 1 - 1 2 0 1 10//////Ax=b
-//- 3 - 2 - 1 1 0 0 0  Ä¿±êº¯ÊıÏµÊı
+//- 3 - 2 - 1 1 0 0 0  ç›®æ ‡å‡½æ•°ç³»æ•°
 /////////////////////////////////////
