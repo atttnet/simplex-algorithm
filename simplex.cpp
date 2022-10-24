@@ -14,6 +14,7 @@ double Z;
 set<int> P;
 size_t cn, bn;
 bool verbose = false;
+char minmax[4];
 vector<vector<double>> hcat(vector<vector<double>> m, vector<double> n) {
     for (int i = 0; i < m.size(); i++) {
         
@@ -165,18 +166,60 @@ int SelectP(vector<double> xo, vector<double> xq)//出基
 
 }
 
-int SelectQ(vector<double> r)
+int SelectQ(vector<double> r, vector<vector<double>> a, int minmax)
 {
     int n = r.size();
     int q = -1;
-    int qv = 0;
-    for (int i = 0; i < n;i++) {
-        if (r[i]>qv) {
-            q = i;
-            qv = r[i];
+    if (minmax == 1) {
+
+        int qv = 0;
+        int count = 0;
+        bool flag = true;
+        for (int i = 0; i < n; i++) {
+            if (r[i] < qv) {
+                q = i;
+                count++;
+                qv = r[i];
+            }
+
         }
-    
+        if (count == 1) {
+            for (int k = 0; k < a.size(); k++) {
+                if (a[k][q] > 0) {
+                    flag = false;
+                }
+
+            }
+            if (flag) { return -2; }
+
+        }
     }
+    else {
+
+        int qv = 0;
+        int count = 0;
+        bool flag = true;
+        for (int i = 0; i < n; i++) {
+            if (r[i] > qv) {
+                q = i;
+                count++;
+                qv = r[i];
+            }
+
+        }
+        if (count == 1) {
+            for (int k = 0; k < a.size(); k++) {
+                if (a[k][q] > 0) {
+                    flag = false;
+                }
+
+            }
+            if (flag) { return -2; }
+
+        }
+    }
+
+
     return q;
 
 }
@@ -199,16 +242,20 @@ tuple<vector<vector<double>>, vector<double>, vector<int>, vector<int>>Simplex(
     vector<double> X_x,
     vector<double> C,
     vector<int> basesB,
-    vector<int> basesD)
+    vector<int> basesD,
+    int minmax)
 {
     vector<double> X(X_x);
     vector<vector<double> > A(A_a);
     int n = A.size();
-    int m = A.size();
+    int m = A[0].size();
     vector<vector<double> > B(B_b);
 
     for (int v = 0; v < 128; v++) {
-       
+        cout << "第" << v + 1 << "次迭代" << endl;
+        printV(A);
+        // cout << "BJuzhen" << endl;
+        printV(B);
         vector<double> cb;
         cout << "基为";
         for (int i = 0; i < basesB.size(); i++) {
@@ -243,7 +290,7 @@ tuple<vector<vector<double>>, vector<double>, vector<int>, vector<int>>Simplex(
 
 
         }
-        int q = SelectQ(r);
+        int q = SelectQ(r,A,minmax);
         if (q == -1) {
             double ans = 0;
             for (int k = 0; k < cb.size(); k++)
@@ -251,7 +298,12 @@ tuple<vector<vector<double>>, vector<double>, vector<int>, vector<int>>Simplex(
                 // 矩阵A x轴的数 乘 矩阵B y轴的数，累加得到，新矩阵 C[i][j] 的值
                 ans = ans + cb[k] * X[k];
             }
-            cout << "minimumcost is" << ans;
+            cout << "所求最优解是：  " << ans<<endl;
+            cout << "x取值为：  " << endl;
+            for (int i = 0; i < basesB.size(); i++) {
+               // cb.push_back(C[basesB[i]]);
+                cout << "X" << basesB[i] + 1 << " =  " << X[i] << ";";
+            }
             tuple<vector<vector<double>>, vector<double>, vector<int>, vector<int>> result =
                 make_tuple(B, X, basesB, basesD);
             return result;
@@ -301,14 +353,7 @@ tuple<vector<vector<double>>, vector<double>, vector<int>, vector<int>>Simplex(
             //b_l.push_back(b_l1);
         }
     
-        cout << "第" << v + 1 << "次迭代" << endl;
-        printV(A);
-        // cout << "BJuzhen" << endl;
-        printV(B);
-        for (int i = 0; i < X.size();i++) {
-            cout << X[i] << ",";
-        }
-        cout << endl;
+        
     }
     cout << "warning!";
     tuple<vector<vector<double>>, vector<double>, vector<int>, vector<int>> result =
@@ -327,7 +372,7 @@ int main(int argc, char* argv[])
     vector<vector<double> > A;
     vector<vector<double> > b;  //基矩阵
     fin.open("test.txt");       //输入矩阵
-    fin >> cn >> bn;            //矩阵大小
+    fin >> cn >> bn>>minmax;            //矩阵大小
     for (int g = 0; g < cn;g++) {//初始基可行解
         int base = 0;
         fin >> base;
@@ -386,13 +431,18 @@ int main(int argc, char* argv[])
         }
     
     }
-    Simplex(A,b,x, c_vector,basesB,basesD);
+    int minmax_tag = 0;
+    char min[] = "min";
+    if (strcmp(minmax, min) == 0) {
+        minmax_tag = 1;
+    }
+    Simplex(A,b,x, c_vector,basesB,basesD, minmax_tag);
 }
 
 /////////////////////////////////////
 //myinput:
 //
-//7 4 下列矩阵大小
+//7 4 minmax下列矩阵大小及求解Min或Max
 //5 6 0 0 0 0 0 初始基向量列索引
 //1 - 2 3 - 1 1 0 15
 //2 1 - 1 2 0 1 10//////Ax=b
