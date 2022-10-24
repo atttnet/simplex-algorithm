@@ -14,6 +14,7 @@ double Z;
 set<int> P;
 size_t cn, bn;
 bool verbose = false;
+char minmax[4];
 vector<vector<double>> hcat(vector<vector<double>> m, vector<double> n) {
     for (int i = 0; i < m.size(); i++) {
 
@@ -278,14 +279,14 @@ tuple<vector<vector<double>>, vector<vector<double>>, vector<double>, vector<int
     vector<double> X(X_x);
     vector<vector<double> > A(A_a);
     int n = A.size();
-    int m = A.size();
+    int m = A[0].size();
     vector<vector<double> > B(B_b);
 
     for (int v = 0; v < 128; v++) {
         cout << "第" << v + 1 << "次迭代" << endl;
         printV(A);
         // cout << "BJuzhen" << endl;
-        printV(B);
+       // printV(B);
         vector<double> cb;
         cout << "基为";
         for (int i = 0; i < basesB.size(); i++) {
@@ -335,7 +336,13 @@ tuple<vector<vector<double>>, vector<vector<double>>, vector<double>, vector<int
                 // 矩阵A x轴的数 乘 矩阵B y轴的数，累加得到，新矩阵 C[i][j] 的值
                 ans = ans + cb[k] * X[k];
             }
-            cout << "minimumcost is" << ans<<endl;
+            cout << "最优解为： " << ans << endl;
+            cout << "x取值为：  " << endl;
+            for (int i = 0; i < basesB.size(); i++) {
+                // cb.push_back(C[basesB[i]]);
+                cout << "X" << basesB[i] + 1 << " =  " << X[i] << ";";
+            }
+            cout << endl;
             tuple<vector<vector<double>>,vector<vector<double>>, vector<double>, vector<int>, vector<int>> result =
                 make_tuple(A,B, X, basesB, basesD);
             return result;
@@ -386,9 +393,7 @@ tuple<vector<vector<double>>, vector<vector<double>>, vector<double>, vector<int
         }
 
        
-        for (int i = 0; i < X.size(); i++) {
-            cout << X[i] << ",";
-        }
+        
         cout << endl;
     }
     cout << "warning!";
@@ -408,7 +413,7 @@ int main(int argc, char* argv[])
     vector<vector<double> > A;
     vector<vector<double> > b;  //基矩阵
     fin.open("test.txt");       //输入矩阵
-    fin >> cn >> bn;            //矩阵大小
+    fin >> cn >> bn>>minmax;            //矩阵大小
 
     for (size_t i = 0; i < bn - 1; i++)
     {
@@ -462,9 +467,16 @@ int main(int argc, char* argv[])
 
         based1.push_back(a1);
     }
+    int minmax_tag = 0;
+    char min[] = "min";
+    if (strcmp(minmax, min) == 0) {
+        minmax_tag = 1;
+    }
+   
+
     //paseI
     cout << "paseI"<<endl;
-    tuple<vector<vector<double>>, vector<vector<double>>, vector<double>, vector<int>, vector<int>> par = Simplex(hcatI(A,a_s), buildI(a_s), x, c1_vector, baseb1, based1,1);
+    tuple<vector<vector<double>>, vector<vector<double>>, vector<double>, vector<int>, vector<int>> par = Simplex(hcatI(A,a_s), buildI(a_s), x, c1_vector, baseb1, based1, 1);
     //paseII
     cout << "paseII" << endl;
     vector<vector<double>>A_II ;
@@ -488,13 +500,19 @@ int main(int argc, char* argv[])
         }
     }
     b_ii = get<3>(par);
-
-    Simplex(A_II, B_II, x_ii, c_vector, b_ii, d_ii,0);
+    bool bound_flag = true;
+    for (int b_bound = 0; b_bound < b_ii.size(); b_bound++) {
+       // cout << (b_ii[b_bound] > get<0>(par)[0].size() - a_s);
+        if (b_ii[b_bound]> get<0>(par)[0].size() - a_s) { bound_flag = false; }
+       
+    }
+    if (bound_flag) { Simplex(A_II, B_II, x_ii, c_vector, b_ii, d_ii, minmax_tag); }
+    else { cout << "无最优解" << endl; }
 }
 
 /////////////////////////////////////
 //myinput:
-//7 4 下列矩阵大小
+//7 4 minmax 矩阵大小及求解min或max
 //1 - 2 3 - 1 1 0 15
 //2 1 - 1 2 0 1 10//////Ax=b
 //- 3 - 2 - 1 1 0 0 0  目标函数系数
